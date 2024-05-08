@@ -134,7 +134,9 @@ public final class CameraViewController: UIViewController {
     }
 
     torchMode = .off
-    captureSession.startRunning()
+    DispatchQueue.global(qos: .background).async {
+      self.captureSession.startRunning()
+    }
     focusView.isHidden = false
     flashButton.isHidden = captureDevice?.position == .front
     cameraButton.isHidden = !showsCameraButton
