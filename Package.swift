@@ -1,4 +1,4 @@
-// swift-tools-version:5.3
+// swift-tools-version:5.10
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
@@ -22,7 +22,12 @@ let package = Package(
         // Targets can depend on other targets in this package, and on products in packages which this package depends on.
         .target(
             name: "BarcodeScanner",
-            path: "Sources"
-        ),
-    ]
+            path: "Sources",
+        swiftSettings: [
+                    // Start with targeted checks in Debug only
+                    //.unsafeFlags(["-Xfrontend", "-strict-concurrency=targeted"], .when(configuration: .debug)),
+                    // Optionally enforce complete in Release once clean:
+                     .unsafeFlags(["-Xfrontend", "-strict-concurrency=complete"], .when(configuration: .release)),
+        ]),
+        ]
 )
