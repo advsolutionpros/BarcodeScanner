@@ -292,7 +292,7 @@ private extension BarcodeScannerViewController {
 
 // MARK: - HeaderViewControllerDelegate
 
-extension BarcodeScannerViewController: HeaderViewControllerDelegate {
+extension BarcodeScannerViewController: @MainActor HeaderViewControllerDelegate {
   func headerViewControllerDidTapCloseButton(_ controller: HeaderViewController) {
     dismissalDelegate?.scannerDidDismiss(self)
   }
@@ -300,7 +300,7 @@ extension BarcodeScannerViewController: HeaderViewControllerDelegate {
 
 // MARK: - CameraViewControllerDelegate
 
-extension BarcodeScannerViewController: CameraViewControllerDelegate {
+extension BarcodeScannerViewController: @MainActor CameraViewControllerDelegate {
   func cameraViewControllerDidSetupCaptureSession(_ controller: CameraViewController) {
     status = Status(state: .scanning)
   }

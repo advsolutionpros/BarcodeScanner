@@ -33,7 +33,7 @@ func localizedString(_ key: String) -> String {
 }
 
 /// Checks if the app is running in Simulator.
-var isSimulatorRunning: Bool = {
+@MainActor var isSimulatorRunning: Bool = {
   #if swift(>=4.1)
     #if targetEnvironment(simulator)
       return true

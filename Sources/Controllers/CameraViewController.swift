@@ -433,7 +433,7 @@ private extension CameraViewController {
 
 // MARK: - AVCaptureMetadataOutputObjectsDelegate
 
-extension CameraViewController: AVCaptureMetadataOutputObjectsDelegate {
+extension CameraViewController: @MainActor AVCaptureMetadataOutputObjectsDelegate {
   public func metadataOutput(_ output: AVCaptureMetadataOutput,
                              didOutput metadataObjects: [AVMetadataObject],
                              from connection: AVCaptureConnection) {
