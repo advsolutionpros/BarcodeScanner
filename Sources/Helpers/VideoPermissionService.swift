@@ -6,35 +6,30 @@ final class VideoPermissionService {
     case notAuthorizedToUseCamera
   }
 
-  // MARK: - Authorization
+    // MARK: - Authorization
 
-  /// Checks authorization status of the capture device.
-  func checkPersmission(completion: @escaping @MainActor (Error?) -> Void) {
-    switch AVCaptureDevice.authorizationStatus(for: .video) {
-    case .authorized:
-      Task { @MainActor in
+    /// Checks authorization status of the capture device.
+    func checkPersmission(completion: @escaping (Error?) -> Void) {
+      switch AVCaptureDevice.authorizationStatus(for: .video) {
+      case .authorized:
         completion(nil)
-      }
-    case .notDetermined:
-      askForPermissions(completion)
-    default:
-      Task { @MainActor in
+      case .notDetermined:
+        askForPermissions(completion)
+      default:
         completion(Error.notAuthorizedToUseCamera)
       }
     }
-  }
 
-  /// Asks for permission to use video.
-  private func askForPermissions(_ completion: @escaping @MainActor (Error?) -> Void) {
-    AVCaptureDevice.requestAccess(for: .video) { granted in
-      Task { @MainActor in
-        guard granted else {
-          completion(Error.notAuthorizedToUseCamera)
-          return
+    /// Asks for permission to use video.
+    private func askForPermissions(_ completion: @escaping (Error?) -> Void) {
+      AVCaptureDevice.requestAccess(for: .video) { granted in
+        DispatchQueue.main.async {
+          guard granted else {
+            completion(Error.notAuthorizedToUseCamera)
+            return
+          }
+          completion(nil)
         }
-        completion(nil)
       }
     }
   }
-}
-

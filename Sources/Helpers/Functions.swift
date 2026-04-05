@@ -7,9 +7,15 @@ import AVFoundation
  - Returns: An image.
  */
 func imageNamed(_ name: String) -> UIImage {
+  let cls = BarcodeScannerViewController.self
+  var bundle = Bundle(for: cls)
   let traitCollection = UITraitCollection(displayScale: 3)
 
-    guard let image = UIImage(named: name, in: Bundle.module, compatibleWith: traitCollection) else {
+  if let resourceBundle = bundle.resourcePath.flatMap({ Bundle(path: $0 + "/BarcodeScanner.bundle") }) {
+    bundle = resourceBundle
+  }
+
+  guard let image = UIImage(named: name, in: bundle, compatibleWith: traitCollection) else {
     return UIImage()
   }
 
